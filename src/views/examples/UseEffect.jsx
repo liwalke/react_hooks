@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import PageTitle from '../../components/layout/PageTitle'
 import SectionTitle from '../../components/layout/SectionTitle'
 
@@ -14,14 +14,17 @@ function verificaParidade(num){
     return 'impar'
 }
 
-
 const UseEffect = (props) => {
-    const [number, setNumber] = useState(0)
-    const [fatorial, setFatorial] = useState(0)
-    const [paridade, setParidade] = useState(0)
+    
+    //OBS.: No exemplo do professor foi usado o hook useState para fatorial e paridade. Através da escrita no console, foi verificado que com o useState gerava 3 renderizações a cada alteração de number. Então foi usado o hook useRef, que não causa re-render.    
+    //console.log('Renderizei')
 
-    useEffect(_ => setFatorial(calcFatorial(number)), [number])
-    useEffect(_ => setParidade(verificaParidade(number)),[number])
+    const [number, setNumber] = useState(0)
+    const fatorial = useRef(0)
+    const paridade = useRef(0)
+
+    useEffect(_ => { fatorial.current = calcFatorial(number) }, [number])
+    useEffect(_ => { paridade.current = verificaParidade(number) },[number])
 
     return (
         <div className="UseEffect">
@@ -36,7 +39,7 @@ const UseEffect = (props) => {
             <div className="center">
                 <div>
                     <span className='text'>Fatorial: </span>
-                    <span className='text red'>{fatorial}</span>
+                    <span className='text red'>{fatorial.current}</span>
                 </div>
             </div>
 
@@ -44,7 +47,7 @@ const UseEffect = (props) => {
             <div className="center">
                 <div>
                     <span className='text'>Tipo: </span>
-                    <span className='text red'>{paridade}</span>
+                    <span className='text red'>{paridade.current}</span>
                 </div>
             </div>
         </div >

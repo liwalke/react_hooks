@@ -1,9 +1,14 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import PageTitle from '../../components/layout/PageTitle'
 import SectionTitle from '../../components/layout/SectionTitle'
 
 const UseRef = (props) => {
-    const [value1, setValue1] = useState(0)
+    const [value1, setValue1] = useState("")
+    const [value2, setValue2] = useState("")
+    const count = useRef(0)
+
+    count.current ++;
+
     return (
         <div className="UseRef">
             <PageTitle
@@ -12,7 +17,14 @@ const UseRef = (props) => {
             />
             <SectionTitle title="Exercício 1"></SectionTitle>
             <div className="center">
+                <span className="text">Valor:</span>
+                <span className="text">{value1}</span>
+                <span className="text">Contador de renderizações:</span><span className='text red'>{count.current}</span>
                 <input type="text" className="input" value={value1} onChange={e => setValue1(e.target.value)}/>
+            </div>
+            <SectionTitle title="Exercício 2"></SectionTitle>
+            <div className='center'>
+                <input type="text" className="input" value={value2} onChange={e => setValue2(e.target.value)}/>
             </div>
         </div>
     )
